@@ -1,0 +1,39 @@
+<div id="auth_form" class="clear">
+  <form id="login" action="/sessions" method="post" class="box_effect">
+    <h2>Login</h2>
+    <%- message('loginErr') %>
+    <div class="inputs">
+      <p><label for="login_username">username</label></p>
+      <p><input id="login_username" type="text" name="username"
+                size="30" placeholder="username"></p>
+      <p><label for="login_password">password</label></p>
+      <p><input id="login_password" type="password" name="password"
+                size="30" placeholder="password"></p>
+      <p>
+        <label for="login_rememberme">remember me</label>
+        <input id="login_rememberme" type="checkbox" name="rememberme">
+      </p>
+      <p><input type="submit" class="newpost" value="login"></p>
+    </div>
+  </form>
+  <form id="register" action="/users" method="post" class="box_effect">
+    <h2>Create Account</h2>
+    <%- message('registerErr') %>
+    <div class="inputs">
+      <p><label for="register_username">username</label></p>
+      <p><input id="register_username" type="text" name="username"
+                size="30" placeholder="username"></p>
+      <p><label for="register_password">password</label></p>
+      <p><input id="register_password" type="password" name="password"
+                size="30" placeholder="password"></p>
+      <p><label for="register_password2">password(again)</label></p>
+      <p><input id="register_password2" type="password" name="password2"
+                size="30" placeholder="password(again)"></p>
+      <p>
+        <label for="register_rememberme">remember me</label>
+        <input id="register_rememberme" type="checkbox" name="rememberme">
+      </p>
+      <p><input type="submit" class="newpost" value="create account"></p>
+    </div>
+  </form>
+</div>

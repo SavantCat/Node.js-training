@@ -1,0 +1,9 @@
+<h1><%= title %></h1>
+<ul class="message">
+<% if (err.path) { %>
+  <li>Cant't find your request for <%= err.path %></li>
+<% } else { %>
+  <li>Sorry.. something wrong with server :-(</li>
+<% } %>
+</ul>
+<p><a href="/topics">Top</a></p>

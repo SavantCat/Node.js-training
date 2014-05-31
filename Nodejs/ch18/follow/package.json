@@ -1,0 +1,13 @@
+{
+    "name": "FollowNearbyAll"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": "2.5.4"
+    , "ejs": "0.6.1"
+    , "socket.io": "0.9.4"
+    , "redis": "0.7.2"
+    , "oauth": "0.9.7"
+    , "connect-auth": "0.5.3"
+  }
+}

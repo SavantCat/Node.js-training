@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.6.4.min.js'></script>
+    <script type='text/javascript' src='/socket.io/socket.io.js'></script>
+    <script type='text/javascript'>
+      var keyword = '<%= keyword %>';
+      var socket = io.connect('http://localhost:3000/' + keyword);
+      socket.on('tweet', function(tweet) {
+        if ($('.tweet').size() > 20) {
+          $('.tweet:last').remove();
+        }
+        $('#timeline').prepend('<p class="tweet">' + tweet + '</p>');
+      });
+      socket.on('hashtags', function(tags) {
+        var str = '';
+        for (var i = 0; i < tags.length; i++) {
+          str += '<a href="/' + tags[i].hashtag + '"><span style="padding: 5px; font-size: ' + (10 + Number(tags[i].count)) + 'px">' + tags[i].hashtag + '</span></a>';
+        }
+        $('#tags').empty();
+        $('#tags').append(str);
+      });
+    </script>
+  </head>
+  <body>
+    <%- body %>
+  </body>
+</html>

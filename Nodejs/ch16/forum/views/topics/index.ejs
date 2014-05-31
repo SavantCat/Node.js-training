@@ -1,0 +1,10 @@
+<div id="contents" class="clear">
+  <p id="pagetitle">
+    Topic
+  </p>
+  <ul id="topic_list">
+    <% for(var i in topics){ %>
+    <li><%- link_to(topics[i].name, topics[i].url) %></li>
+    <% } %>
+  </ul>
+</div>

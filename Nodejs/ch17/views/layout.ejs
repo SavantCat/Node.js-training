@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>File Upload</title>
+    <script src="/lib/jquery/jquery-1.7.1.min.js"></script>
+    <script src="/lib/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <link rel="stylesheet" href="/lib/jquery-ui/css/smoothness/jquery-ui-1.8.16.custom.css">
+    <link rel="stylesheet" href="/stylesheets/layout.css">
+    <script src="/javascripts/layout.js"></script>
+    <%- partial('partials/resource', resources) %>
+    <%- partial('partials/variable', variables) %>
+  </head>
+  <body>
+    <div id="headerContainer">
+      <div id="headerTitle">File Upload Example</div>
+    </div>
+    <% if (message) { %>
+      <div id="messageContainer" class="ui-state-highlight ui-corner-all"><%= message %></div>
+    <% } %>
+    <div id="mainContainer">
+      <%- body %>
+    </div>
+  </body>
+</html>

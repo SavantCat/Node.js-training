@@ -1,0 +1,14 @@
+<section class="box_effect">
+  <h2 class="title">
+    <%- link_to(post.title, '/topics/' + topic_id + '/posts/' + post._id) %>
+  </h2>
+  <p class="username"><%= post.username %></p>
+  <p class="date"><%= post.created_at %></p>
+  <div class="detail">
+    <%- text_format(escape(post.detail)) %>
+  </div>
+  <form class="delete" action="/topics/<%= topic_id %>/posts/<%= post._id %>" method="POST">
+    <input type="hidden" name="_method" value="DELETE" >
+    <input type="submit" name="deletepost" class="deletepost" value="delete">
+  </form>
+</section>

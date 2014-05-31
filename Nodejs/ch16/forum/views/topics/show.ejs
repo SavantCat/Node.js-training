@@ -1,0 +1,21 @@
+<div id="contents" class="clear">
+  <p id="pagetitle"><%= title %></p>
+  <%- message('deleteErr') %>
+  <%- message('getPostErr') %>
+  <%- partial('../partials/post.ejs', { collection : posts }) %>
+  <section class="box_effect">
+    <form id="input" action="/topics/<%= topic_id %>/posts" method="POST">
+      <div>
+        <%- message('postErr') %>
+        <p><label for="input_title">title</label></p>
+        <p><input id="input_title" type="text" name="title" size="50" placeholder="title"></p>
+        <p><label for="input_detail">detail</label></p>
+        <p><textarea id="input_detail" name="detail"></textarea></p>
+        <div>
+          <input type="submit" name="newpost" class="newpost" value="submit">
+        </div>
+      </div>
+    </form>
+  </section>
+  <p class="move_top"><a href="#wrap">move top</a></p>
+</div>

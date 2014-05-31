@@ -1,0 +1,14 @@
+{
+    "name": "application-name"
+  , "version": "0.0.1"
+  , "private": true
+  , "engines": {
+      "node": "0.8.3"
+  }
+  , "dependencies": {
+        "express": "2.5.4"
+      , "ejs": "0.6.1"
+      , "cradle": "0.5.8"
+      , "socket.io": "0.9.4"
+    }
+}

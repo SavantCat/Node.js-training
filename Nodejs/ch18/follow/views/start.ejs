@@ -1,0 +1,54 @@
+<script type='text/javascript'>
+var socket = io.connect();
+
+var follows = [];
+var name = '<%= name %>';
+
+navigator.geolocation.getCurrentPosition(function(position) {
+  socket.emit('position', {
+    name: name,
+    latitude: position.coords.latitude,
+    longitude: position.coords.longitude
+  });
+  socket.on('user', function(user) {
+    $('#results').append(
+      '<div>' +
+        '<img src="' + user.imgUrl + '" />' +
+        '<span>' + user.name + '</span>' +
+      '</div>'
+    );
+    follows.push(user.name);
+  });
+  socket.on('end', function() {
+    $('#detecting').hide();
+    if (follows.length ===0) {
+      $('#notfound').show();
+    } else {
+      $('#follow').show();
+    }
+  });
+});
+function followAll() {
+  socket.emit('follow', {
+    name: name,
+    follows: follows
+  });
+  $('#follow').hide();
+  $('#finished').show();
+}
+</script>
+<div id="results"></div>
+<div id="detecting">
+  <p>検出中...</p>
+</div>
+<div id="notfound" style="display: none;">
+  <p>見つかりませんでした</p>
+  <a href="/" data-role="button">戻る</a>
+</div>
+<div id="follow" style="display: none;">
+  <input type="button" onClick="followAll();" value="Follow ALL" />
+</div>
+<div id="finished" style="display: none;">
+  <p>Follow完了しました</p>
+  <a href="/" data-role="button">戻る</a>
+</div>

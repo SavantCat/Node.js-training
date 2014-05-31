@@ -1,0 +1,268 @@
+@charset "utf-8";
+
+html {
+  min-height:100%;
+}
+
+body {
+  font: times, 'Times New Roman', times-roman, georgia, serif;
+  font-family: "メイリオ", Meiryo;
+  background: #800000;
+  color: #444;
+  margin: 1px 0;
+}
+
+#wrap {
+  width: 940px;
+  margin: 0 auto;
+  padding: 4px 20px;
+  background: #fff;
+  font-size: 100%;
+}
+
+.clear:after {
+  content: ".";
+  visibility: hidden;
+  height: 0.1px;
+  font-size: 0.1em;
+  line-height: 0;
+  display: block;
+  clear: both;
+}
+
+li {
+  list-style: none;
+}
+
+input[type=submit],
+input[type=button] {
+  font-size: 100%;
+  background: #dadada;
+  border: 1px solid #999;
+  padding: 0.4em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+  background: -moz-linear-gradient(top,  #fff,  #eee);
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+input[type=text],
+input[type=password],
+textarea {
+  font-size: 120%;
+  padding: 0.2em;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+a:link {
+}
+
+a:visited {
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+}
+
+.box_effect {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #800000;
+  -webkit-box-shadow: 0px 0px 4px #800000;
+  -moz-box-shadow: 0px 0px 4px #800000;
+  box-shadow: 0px 0px 4px #800000;
+}
+
+header {
+  position: relative;
+  display: block;
+}
+
+header h1 {
+  font-size: 400%;
+  font-weight: bold;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, .3);
+  margin:0;
+}
+
+header .login_user {
+  font-size: 120%;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 1em;
+}
+
+header .login,
+header .logout {
+  position: absolute;
+  top: 2em;
+  right: 1em;
+}
+
+header .login a,
+header .logout a{
+  color: #802020;
+}
+
+header nav {
+  display: block;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+}
+
+header nav ul {
+  padding: 1%;
+}
+
+header nav ul li {
+  padding:  0 2%;
+  margin-right: 1%;
+  float: left;
+  border-right: solid 1px #000;
+}
+
+header nav ul li a{
+  font-weight: bold;
+  display: block;
+  color: #802020;
+}
+
+#contents {
+  margin-bottom: 10px;
+}
+
+#contents section {
+  display: block;
+  margin-bottom: 1.4em;
+  background: #fff;
+  padding: 1em;
+}
+
+h2,
+h2 a {
+  color: #e5006c;
+  margin: 0 0 2% 0;
+}
+
+#pagetitle {
+  font-size: 160%;
+  border-bottom: solid 1px #000;
+}
+
+#contents .detail {
+  font-size: 120%;
+  padding: 0.08em 0 0 1em;
+}
+
+.move_top, .move_back {
+  clear: both;
+  margin: 0;
+  text-align: right;
+}
+
+#contents section {
+  position: relative;
+}
+
+#contents .username {
+  position: absolute;
+  font-size: 80%;
+  top: 1.4em;
+  right: 1em;
+}
+
+#contents .date {
+  position: absolute;
+  font-size: 70%;
+  top: 0;
+  right: 1em;
+}
+
+#input {
+  font-size: 120%;
+  text-align: left;
+}
+
+#input input[type=text],
+#input input[type=password],
+#input textarea {
+  width: 90%;
+  margin: 0 0 0.5em 0.5em;
+  padding: 1%;
+}
+
+#input textarea {
+  height: 8em;
+}
+
+#contents form.delete {
+  text-align: right;
+}
+
+#contents form.delete input[type=submit]{
+  width: 8%;
+}
+
+#auth_form {
+  padding: 2%;
+}
+
+#auth_form form {
+  margin: 1%;
+  padding: 2%;
+}
+
+#auth_form form div.inputs {
+  margin-left: 4%;
+}
+
+#topic_list {
+  width: 800px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#topic_list li{
+  border:solid 4px #800000;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+#topic_list li a {
+  display: block;
+  padding: 2%;
+  font-size: 200%;
+  font-weight: bold;
+}
+
+ul.message {
+  padding: 0;
+}
+
+ul.message li {
+  padding: 1%;
+  margin: 1% 0 0 0;
+  border: solid 4px #ee2e2e;
+  background: #eecccc;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+#copyright {
+  text-align: center;
+  margin: 4em 0 0 0;
+}
