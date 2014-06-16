@@ -1,55 +1,22 @@
-// TCPによるエコークライアントの実装
 var net = require('net');
-var readline = require('readline');
-
-var options = {};
-options.host = process.argv[2];
-options.port = process.argv[3];
-
-var client = net.connect(options);
-
-// 接続失敗時のイベント
-client.on('error', function(e) {
-  console.error('Connection Failed - ' + options.host + ':' + options.port);
-  console.error(e.message);
-});
-
-// クライアントソケット接続確立時のイベント
-client.on('connect', function() {
-  console.log('Connected - ' + options.host + ':' + options.port);
-});
-
-// Control-c でクライアントソケットをクローズできるようにします
-var rl = readline.createInterface(process.stdin, process.stdout);
-rl.on('SIGINT', function() {
-  console.log('Connection Closed - ' + options.host + ':' + options.port);
-  client.end();
-  rl.close();
-});
-
-// 1秒ごとにtimeoutするように設定して
-// 'Hello World' をサーバに送信
-var i = 0;  // 送信順番
-client.setTimeout(1000);
-client.on('timeout', function() {
-  var str = i + ': Hello World\n';
-  process.stdout.write('[S] ' + str);
-  client.write(str);
-  i = i + 1;
-});
-
-// Echoバックされてきたデータを標準出力に表示
-client.on('data', function(chunk) {
-  process.stdout.write(chunk.toString());
-});
-
-// クライアントソケット終了時のイベント
-client.on('end', function(had_error) {
-  client.setTimeout(0); // タイムアウトを無効化
-  console.log('Connection End - ' + options.host + ':' + options.port);
-});
-
-client.on('close', function() {
-  console.log('Client Closed');
-  rl.close();
-});
+ 
+var server = net.createServer(function(conn){
+  console.log('server-> tcp server created');
+ 
+  conn.on('data', function(data){
+    console.log('server-> ' + data + ' from ' + conn.remoteAddress + ':' + conn.remotePort);
+    conn.write('server -> Repeating: ' + data);
+  });
+  conn.on('close', function(){
+    console.log('server-> client closed connection');
+    server.close();
+    server.end();
+  });
+  conn.on('end', function(){
+    console.log('server-> server end');
+    server.close();
+    server.end();
+  });
+}).listen(3000);
+ 
+console.log('listening on port 3000');

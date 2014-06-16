@@ -25,15 +25,19 @@ public class client : MonoBehaviour {
 		net = tcpip.GetStream ();
 		read_thread = new Thread (new ThreadStart (read_stream));
 		read_thread.Start ();
+		tmp = transform.position;
 	}
 	
 	// Update is called once per frame
+
+	private Vector3 tmp;
 	void Update () {
-		if(Input.GetMouseButtonDown(1)){
-			byte[] send_byte = Encoding.UTF8.GetBytes("Hello,world");
-			net.Write(send_byte,0,send_byte.Length);
-			Debug.Log("send");
-		}
+			if (transform.position != tmp) {
+					byte[] send_byte = Encoding.UTF8.GetBytes (gameObject.name + ":" + transform.position + "");
+					net.Write (send_byte, 0, send_byte.Length);
+					//Debug.Log("send" + gameObject.name);
+					tmp = transform.position;
+			}
 	}
 
 	private void read_stream(){//**マルチスレッド関数**
