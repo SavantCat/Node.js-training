@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{32EB9DA9-6D7E-0379-0CF6-735FB3D5C27B}</ProjectGuid>
+	<ProjectGuid>{57AF7AD1-3B8A-0DCC-F9F5-E9D9AB06AF9F}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,14 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\JSONReadSample.cs" />
-     <Compile Include="Assets\client.cs" />
-     <Compile Include="Assets\make_box.cs" />
-     <Compile Include="Assets\move_client.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{57AF7AD1-3B8A-0DCC-F9F5-E9D9AB06AF9F}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+     <Compile Include="Assets\Plugins\MiniJSON.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
