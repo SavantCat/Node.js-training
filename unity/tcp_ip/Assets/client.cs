@@ -24,19 +24,25 @@ public class client : MonoBehaviour {
 	private Thread read_thread;
 
 	public float x,y,z = 0;
-	private Vector3 pos;
+	public Vector3 pos;
 	private Vector3 tmp;
 
 	public bool send = true;
+	public bool read = true;
+	private string obj_name = "";
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+
+		obj_name = gameObject.name;
+
 		tcpip = new TcpClient(IPAddress,port);
 		net = tcpip.GetStream ();
 		read_thread = new Thread (new ThreadStart (read_stream));
 		read_thread.Start ();
+
 		tmp = transform.position;
-		byte[] send_byte = Encoding.UTF8.GetBytes("client:"+gameObject.name+"");
-		net.Write (send_byte, 0, send_byte.Length);
+		//byte[] send_byte = Encoding.UTF8.GetBytes(gameObject.name+"");
+		//net.Write (send_byte, 0, send_byte.Length);
 	}
 	
 	// Update is called once per frame
@@ -44,39 +50,51 @@ public class client : MonoBehaviour {
 	void Update () {
 			if (transform.position != tmp && send) {
 					string json = 
-								"["+
-									"{"+
-										"\"Type\":\""+"send"+"\","+
-										"\"name\":\""+gameObject.name+"\","+
-										"\"x\":"+transform.position.x+","+
-										"\"y\":"+transform.position.y+","+
-										"\"z\":"+transform.position.z+","+
-									"},"+
-								"]";
+								"{"+
+									"\"Type\":\""+"send"+"\","+
+									"\"name\":\""+gameObject.name+"\","+
+									"\"x\":"+transform.position.x+","+
+									"\"y\":"+transform.position.y+","+
+									"\"z\":"+transform.position.z+
+								"}";
 					byte[] send_byte = Encoding.UTF8.GetBytes(json+"");
 					net.Write (send_byte, 0, send_byte.Length);
 					//Debug.Log("send" + gameObject.name);
-					tmp = transform.position;
+					//tmp = transform.position;
+					//Debug.Log(stream);
 			}
+
+		if(Input.GetKeyDown(KeyCode.E)){
+			byte[] send_byte = Encoding.UTF8.GetBytes("close");
+			net.Write (send_byte, 0, send_byte.Length);
+		}
+		if (read) {
+			transform.position = pos + tmp;
+		}
 	}
 
 	private void read_stream(){//**マルチスレッド関数**
-		while(true){
+		while(read){
 			//マルチスレッドの速度？
 			Thread.Sleep(0);
 			//ストリームの受信
+			data = new byte[data.Length];
+			//stream = "";
 			net.Read(data, 0, data.Length);
 			stream = System.Text.Encoding.Default.GetString(data);
-			Debug.Log(stream);
-			IList familyList = (IList)Json.Deserialize(stream);
-			// リストの内容はオブジェクトなので、辞書型の変数に一つ一つ代入しながら、処理
-
-			//pos = new Vector3(x,y,z);
+			//Debug.Log(obj_name+":"+stream);
+			var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
+			if(jsonData != null){
+				pos = new Vector3(float.Parse(jsonData["x"].ToString()),float.Parse(jsonData["y"].ToString()),float.Parse(jsonData["z"].ToString()));
+			}
+			//
 		}
 	}
 
 	void OnApplicationQuit() {
+
 		read_thread.Abort(); 
 		net.Close();
+		tcpip.Close ();
 	}
 }

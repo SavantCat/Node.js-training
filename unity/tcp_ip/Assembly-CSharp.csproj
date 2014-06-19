@@ -50,6 +50,7 @@
      <Compile Include="Assets\client.cs" />
      <Compile Include="Assets\make_box.cs" />
      <Compile Include="Assets\move_client.cs" />
+     <Compile Include="Assets\move_client_2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
