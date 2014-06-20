@@ -25,6 +25,7 @@ public class client : MonoBehaviour {
 
 	public float x,y,z = 0;
 	public Vector3 pos;
+	public Vector3 rote;
 	private Vector3 tmp;
 
 	public bool send = true;
@@ -53,9 +54,12 @@ public class client : MonoBehaviour {
 								"{"+
 									"\"Type\":\""+"send"+"\","+
 									"\"name\":\""+gameObject.name+"\","+
-									"\"x\":"+transform.position.x+","+
-									"\"y\":"+transform.position.y+","+
-									"\"z\":"+transform.position.z+
+									"\"x_p\":"+transform.position.x+","+
+									"\"y_p\":"+transform.position.y+","+
+									"\"z_p\":"+transform.position.z+","+
+									"\"x_r\":"+transform.eulerAngles.x+","+
+									"\"y_r\":"+transform.eulerAngles.y+","+
+									"\"z_r\":"+transform.eulerAngles.z+
 								"}";
 					byte[] send_byte = Encoding.UTF8.GetBytes(json+"");
 					net.Write (send_byte, 0, send_byte.Length);
@@ -69,12 +73,13 @@ public class client : MonoBehaviour {
 			net.Write (send_byte, 0, send_byte.Length);
 		}
 		if (read) {
-			transform.position = pos + tmp;
+			transform.position = pos;
+			transform.eulerAngles = rote;
 		}
 	}
 
 	private void read_stream(){//**マルチスレッド関数**
-		while(read){
+		while(true){
 			//マルチスレッドの速度？
 			Thread.Sleep(0);
 			//ストリームの受信
@@ -85,7 +90,8 @@ public class client : MonoBehaviour {
 			//Debug.Log(obj_name+":"+stream);
 			var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
 			if(jsonData != null){
-				pos = new Vector3(float.Parse(jsonData["x"].ToString()),float.Parse(jsonData["y"].ToString()),float.Parse(jsonData["z"].ToString()));
+				pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
+				rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
 			}
 			//
 		}
