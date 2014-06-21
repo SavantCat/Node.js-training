@@ -62,29 +62,28 @@ public class client : MonoBehaviour {
 	// Update is called once per frame
 	private string json;
 	void Update () {
-
-
 		if (transform.position != tmp_p || transform.eulerAngles != tmp_r) {
-			string json = 	"{" +
-								"\"Type\":\"" + "send" + "\"," +
-								"\"name\":\"" + gameObject.name + "\"," +
-								"\"x_p\":" + transform.position.x + "," +
-								"\"y_p\":" + transform.position.y + "," +
-								"\"z_p\":" + transform.position.z + "," +
-								"\"x_r\":" + transform.eulerAngles.x + "," +
-								"\"y_r\":" + transform.eulerAngles.y + "," +
-								"\"z_r\":" + transform.eulerAngles.z +
-							"}";
+			string json = "{" +
+					"\"Type\":\"" + "send" + "\"," +
+					"\"name\":\"" + gameObject.name + "\"," +
+					"\"x_p\":" + transform.position.x + "," +
+					"\"y_p\":" + transform.position.y + "," +
+					"\"z_p\":" + transform.position.z + "," +
+					"\"x_r\":" + transform.eulerAngles.x + "," +
+					"\"y_r\":" + transform.eulerAngles.y + "," +
+					"\"z_r\":" + transform.eulerAngles.z +
+					"}";
 			byte[] send_byte = Encoding.UTF8.GetBytes (json + "");
 			net.Write (send_byte, 0, send_byte.Length);
 			//Debug.Log("send" + gameObject.name);
 
 			tmp_p = transform.position;
 			tmp_r = transform.eulerAngles;
-
+			read = false;
 			//Debug.Log(stream);
-		} else if(transform.position == pos){
-			transform.position = pos;
+		}
+		if(read){
+			transform.position = pos + offset;
 			transform.eulerAngles = rote;
 		}
 
@@ -100,7 +99,7 @@ public class client : MonoBehaviour {
 			Thread.Sleep(0);
 			//ストリームの受信
 			data = new byte[data.Length];
-			//stream = "";
+			stream = "";
 			net.Read(data, 0, data.Length);
 			stream = System.Text.Encoding.Default.GetString(data);
 			if(My_port == null){
@@ -109,15 +108,16 @@ public class client : MonoBehaviour {
 			Debug.Log(stream);
 			var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
 			if(jsonData != null){
-				read = true;
-				pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
-				rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
+				if(jsonData["name"] == obj_name){
+					read = true;
+					pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
+					rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
+				}
 			}
 		}
 	}
 
 	void OnApplicationQuit() {
-
 		read_thread.Abort(); 
 		net.Close();
 		tcpip.Close ();

@@ -5,7 +5,7 @@ var host = '192.168.1.5';
 
 var clients = [];
 var number = 0;
-
+var contact = null;
 console.log('Start Node Server !!');
 var server = net.createServer(function (socket) {
     socket.setEncoding("utf8");
@@ -17,22 +17,20 @@ var server = net.createServer(function (socket) {
     socket.write(socket.remotePort+"");
     
     socket.on('data',function(message){//クライアントからの読み込み
-        //console.log(socket.remotePort+" -> "+message);
-        var contact = JSON.parse(message);
-        if (contact != null) {
+        try{
+            contact = JSON.parse(message);       
             console.log("name : "+contact.name);
-        }
-       
-        if (message == "close") {
-            console.log('CLOSED: ' + socket.remoteAddress +' '+ socket.remotePort);
-            socket.end();
-        }else{
             if (clients.length > 0){
                 if (clients[0][1] == socket) {
                     clients[1][1].write(message);
-                    //console.log(clients[i].remotePort+" -> "+message);
+                    console.log(clients[0][1].remotePort+" -> "+message);
                 }
             }
+        }catch(e){
+            if (message == "close") {
+                console.log('CLOSED: ' + socket.remoteAddress +' '+ socket.remotePort);
+                socket.end();
+            }  
         }
     });
     
