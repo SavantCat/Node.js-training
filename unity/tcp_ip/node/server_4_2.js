@@ -1,7 +1,7 @@
 net = require('net');
 
 var port = 3000;
-var host = '192.168.1.5';
+var host = '';
 
 var clients = [];
 
@@ -22,13 +22,13 @@ var server = net.createServer(function (socket) {
     
     socket.write("CONECTED : "+port+"<-"+socket.remotePort);
     /*
-    server.on('connection',function(){//Ú‘±ƒR[ƒ‹ƒoƒbƒN
+    server.on('connection',function(){//ï¿½Ú‘ï¿½ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½N
         clients.push(socket);
         console.log("CONNECT"+"No. " + clients.length +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
         socket.write("CONECTED : "+port+"<-"+socket.remotePort);
     });
     */
-    socket.on('data',function(message){//ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚Ì“Ç‚Ýž‚Ý
+    socket.on('data',function(message){//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚Ýï¿½ï¿½ï¿½
         //console.log("SEND");
         if (message == "close") {
             console.log('CLOSED: ' + socket.remoteAddress +' '+ socket.remotePort);
