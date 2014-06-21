@@ -37,6 +37,8 @@ public class client : MonoBehaviour {
 
 	public string My_port = null;
 
+	public string status;
+
 	// Use this for initialization
 	void Awake () {
 		tmp_p = transform.position;
@@ -54,9 +56,9 @@ public class client : MonoBehaviour {
 
 	void Start(){
 		offset = transform.position;
-
-		//byte[] send_byte = Encoding.UTF8.GetBytes(gameObject.name);
-		//net.Write (send_byte, 0, send_byte.Length);
+		status = "setup";
+		byte[] send_byte = Encoding.UTF8.GetBytes(gameObject.name);
+		net.Write (send_byte, 0, send_byte.Length);
 	}
 	
 	// Update is called once per frame
@@ -64,7 +66,7 @@ public class client : MonoBehaviour {
 	void Update () {
 		if (transform.position != tmp_p || transform.eulerAngles != tmp_r) {
 			string json = "{" +
-					"\"Type\":\"" + "send" + "\"," +
+					"\"type\":\"" + status + "\"," +
 					"\"name\":\"" + gameObject.name + "\"," +
 					"\"x_p\":" + transform.position.x + "," +
 					"\"y_p\":" + transform.position.y + "," +
@@ -79,18 +81,20 @@ public class client : MonoBehaviour {
 
 			tmp_p = transform.position;
 			tmp_r = transform.eulerAngles;
+			pos = tmp_p;
+			rote = tmp_r;
 			read = false;
 			//Debug.Log(stream);
-		}
-		if(read){
-			transform.position = pos + offset;
-			transform.eulerAngles = rote;
-		}
+		} 
+
+		transform.position = pos;
+		transform.eulerAngles = rote;
 
 		if(Input.GetKeyDown(KeyCode.E)){
 			byte[] send_byte = Encoding.UTF8.GetBytes("close");
 			net.Write (send_byte, 0, send_byte.Length);
 		}
+		status = "send";
 	}
 
 	private void read_stream(){//**マルチスレッド関数**
@@ -99,20 +103,20 @@ public class client : MonoBehaviour {
 			Thread.Sleep(0);
 			//ストリームの受信
 			data = new byte[data.Length];
-			stream = "";
+			//stream = "";
 			net.Read(data, 0, data.Length);
 			stream = System.Text.Encoding.Default.GetString(data);
-			if(My_port == null){
-				My_port = stream;
-			}
 			Debug.Log(stream);
 			var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
 			if(jsonData != null){
 				if(jsonData["name"] == obj_name){
-					read = true;
+					Debug.Log("sync");
+
 					pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
 					rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
 				}
+			}else{
+				Debug.Log("Not Json");
 			}
 		}
 	}
