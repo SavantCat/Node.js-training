@@ -3,7 +3,7 @@ net = require('net');
 var port = 3000;
 var host = '192.168.1.5';
 
-var clients = [];
+var clients = [][];
 
 console.log('Start Node Server !!');
 var server = net.createServer(function (socket) {
@@ -37,10 +37,9 @@ var server = net.createServer(function (socket) {
             if (clients.length > 0){
                 for(var i in clients){
                     if (clients[i] != socket) {
-                        break;
+                        clients[i].write(message);
+                        console.log(clients[i].remotePort+" -> "+message);
                     }
-                    clients[i].write(message);
-                    console.log(clients[i].remotePort+" -> "+message);
                 }
             }
         }
