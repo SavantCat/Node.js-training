@@ -33,9 +33,10 @@ public class client : MonoBehaviour {
 	//一時保存変数
 	private Vector3 tmp_p;
 	private Vector3 tmp_r;
-
-	public bool send = true;
-	public bool read = true;
+	private Vector3 read_tmp_p = Vector3.zero;
+	private Vector3 read_tmp_r = Vector3.zero;
+	
+	public bool read = false;
 	
 	private void read_stream(){//**マルチスレッド関数**
 		Debug.Log("Start read stream!");
@@ -44,16 +45,25 @@ public class client : MonoBehaviour {
 			Thread.Sleep(0);
 			//ストリームの受信
 			data = new byte[data.Length];
-			//stream = "";
+			stream = "";
 			net.Read(data, 0, data.Length);
 			stream = System.Text.Encoding.Default.GetString(data);
 			Debug.Log(stream);
 			var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
-			read = false;
 			if(jsonData != null){
-				read = true;
-				pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
-				rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
+				//pos  = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
+				//rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
+
+				read_tmp_p = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
+				read_tmp_r = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
+				if(read_tmp_p != pos && read_tmp_r != rote){
+					read = true;
+					pos = read_tmp_p;
+					rote = read_tmp_r;
+				}else{
+					read = false;
+				}
+				
 			}else{
 				Debug.Log("Not Json");
 			}
@@ -156,12 +166,9 @@ public class client : MonoBehaviour {
 		if (transform.position != tmp_p || transform.eulerAngles != tmp_r) {
 			tmp_p = transform.position;
 			tmp_r = transform.eulerAngles;
-			//if(read == true){
-				send_massage(make_json(status));
-			//}else{
-				pos = tmp_p;
-				rote = tmp_r;
-			//}
+			send_massage(make_json(status));
+			pos = tmp_p;
+			rote = tmp_r;
 		} 
 
 		transform.position = pos;

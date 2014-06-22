@@ -46,8 +46,8 @@ var server = net.createServer(function (socket) {
                 show_port();
             }
             if(contact.type == "send") {
-                console.log("SEND: "+contact.name)
-                broadcast(clients[contact.name],message,socket);
+                //console.log("SEND: "+contact.name)
+                broadcast(contact.name,clients[contact.name],message,socket);
             }
         }catch(e){
             console.log("message -> "+e);
@@ -69,8 +69,8 @@ var server = net.createServer(function (socket) {
     });
     
     // Send a message to all clients
-    function broadcast(clinets_data, message, sender) {
-        console.log("broadcast");
+    function broadcast(id, clinets_data, message, sender) {
+    //console.log("broadcast");
       for(var i = 1; i < clinets_data.length;i++) {
         
         // Don't want to send it to sender
@@ -78,7 +78,7 @@ var server = net.createServer(function (socket) {
         if (clinets_data[i] != sender){
             //console.log("B:"+clinets_data[i].remotePort);
             clinets_data[i].write(message);
-            console.log(sender.remotePort + " -> " + clients[i][1].remotePort+" : "+message);
+            console.log("ObjctID: " + id +", Port: "+ sender.remotePort + " -> " + clients[i][1].remotePort+" : "+message);
         }
       }
       // Log it to the server output too
