@@ -16,13 +16,13 @@ var obj = JSON.parse(json);
  
  
   for(var i in n) {
-    console.log(n[i][1])
+    console.log(n[0].length)
   }
   
   
  console.log( isFinite("1") );
   console.log( n.length );
- n["1"].push(5000);
+ n["1"-1].push(5000);
  console.log(n);
  
  if (1 == '1') {

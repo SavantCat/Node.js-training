@@ -22,14 +22,14 @@ public class move_client : MonoBehaviour {
 	private Thread read_thread;
 
 	public float x,y,z = 0;
-	private Vector3 tmp;
+	//private Vector3 tmp;
 	// Use this for initialization
 	void Start () {
 		tcpip = new TcpClient(IPAddress,port);
 		net = tcpip.GetStream ();
 		read_thread = new Thread (new ThreadStart (read_stream));
 		read_thread.Start ();
-		tmp = transform.position;
+//		tmp = transform.position;
 
 		byte[] send_byte = Encoding.UTF8.GetBytes("client"+gameObject.name+"");
 		net.Write (send_byte, 0, send_byte.Length);
@@ -58,7 +58,7 @@ public class move_client : MonoBehaviour {
 				y = (float)(long)person["y"];
 				z = (float)(long)person["z"];
 			}
-			tmp = new Vector3(x,y,z);
+			//tmp = new Vector3(x,y,z);
 		}
 	}
 	

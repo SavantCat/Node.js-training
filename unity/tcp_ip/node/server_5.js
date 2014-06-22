@@ -12,53 +12,60 @@ var server = net.createServer(function (socket) {
     socket.setEncoding("utf8");
         
     socket.on('data',function(message){//クライアントからの読み込み
-        
-
-        
         try{
-            contact = JSON.parse(message);       
-           // console.log("name : "+contact.name);
+            contact = JSON.parse(message);
             if (contact.type == "setup") {
-                console.log("C");
+                //console.log("A");
                 if (clients == null) {
-                    console.log("A");
+                    //console.log("B");
                     clients = [[contact.name,socket]];
+                    socket.write(socket.remotePort);
+                   // console.log("Connected "+"No. " + contact.name +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
                 }else{
-                    console.log("B");
+                   // console.log("C");
+                    var f = 0;
                     for(var i in clients){
                         if (contact.name == clients[i][0] && socket != clients[i][1]) {
                             clients[i].push(socket);
-                            console.log("add");
-                        }else{
-                            clients.push([contact.name,socket]);
+                           // console.log("D");
                             socket.write(socket.remotePort+"");
-                            console.log("Connected "+"No. " + clients.length +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
+                            //console.log("Connected "+"No. " + contact.name +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
+                            f = 1;
+                            break;
                         }
                     }
+                    if (f === 0) {
+                        clients.push([contact.name,socket]);
+                        socket.write(socket.remotePort+"");
+                        //console.log("Connected "+"No. " + contact.name +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
+                    }
                 }
-            }else if (contact.type == "send") {
+                console.log("Connected "+"No. " + contact.name +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
+            }            
+            if (contact.type == "send") {
+                console.log("SEND: "+clients[contact.name][0]+" "+clients[contact.name][1].remotePort+" "+clients[contact.name][2].remotePort);
                 broadcast(clients[contact.name],message,socket);
             }
         }catch(e){
-            if (message == "close") {
-                console.log('CLOSED: ' + socket.remoteAddress +' '+ socket.remotePort);
-                server.close();
-            }  
+            console.log("message -> "+message);
         }
     });
     
     socket.on('end', function() {
-        console.log('CLOSED: ' + socket.remoteAddress +' '+ socket.remotePort);
-        socket.end();
+        console.log("Exit server!!");
+        process.exit();
     });
     
     // Send a message to all clients
     function broadcast(clinets_data,message, sender) {
-      for(var i=1 in clinets_data) {
+      for(var i in clinets_data) {
+        i++;
         // Don't want to send it to sender
-        if (clinets_data[i] != sender){;
-            clinets_data[i].write(message)
-        };
+        console.log("A:"+i);
+        if (clinets_data[i] != sender){
+            console.log("B");
+            clinets_data[i].write(message);
+        }
       }
       // Log it to the server output too
       console.log(clients[i][1].remoteAddress+" : "+message)

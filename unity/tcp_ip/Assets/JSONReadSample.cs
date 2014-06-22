@@ -18,7 +18,7 @@ public class JSONReadSample : MonoBehaviour {
 		var jsonData = MiniJSON.Json.Deserialize(jsonText) as Dictionary<string,object>;
 		
 		//データの取得
-		string message = (string)jsonData["message"];
+		//string message = (string)jsonData["message"];
 
 		//Debug.Log (float.Parse(jsonData["x"].ToString()));
 		//Debug.Log (float.Parse(jsonData["y"].ToString()));
