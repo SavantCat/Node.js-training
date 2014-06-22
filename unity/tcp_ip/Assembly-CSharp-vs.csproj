@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\JSONReadSample.cs" />
      <Compile Include="Assets\client.cs" />
+     <Compile Include="Assets\client_2.cs" />
      <Compile Include="Assets\make_box.cs" />
      <Compile Include="Assets\move_client.cs" />
      <Compile Include="Assets\move_client_2.cs" />

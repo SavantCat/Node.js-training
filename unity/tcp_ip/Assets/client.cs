@@ -18,16 +18,14 @@ public class client : MonoBehaviour {
 
 	//ストリーム
 	public  string stream = "";
-	private byte[] 	data = new byte[10000];
-
-
+	private byte[] data = new byte[10000];
+	
 	//Jsonデータ
 	private string json;
 	private string status;
 	private string obj_name;
 	public Vector3 pos;
 	public Vector3 rote;
-
 
 	//マルチスレッド用
 	private Thread read_thread;
@@ -40,6 +38,7 @@ public class client : MonoBehaviour {
 	public bool read = true;
 	
 	private void read_stream(){//**マルチスレッド関数**
+		Debug.Log("Start read stream!");
 		while(true){
 			//マルチスレッドの速度？
 			Thread.Sleep(0);
@@ -51,11 +50,9 @@ public class client : MonoBehaviour {
 			Debug.Log(stream);
 			var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
 			if(jsonData != null){
-				if((string)jsonData["name"] == obj_name){
-					Debug.Log("sync");
-					pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
-					rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
-				}
+				read = true;
+				pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
+				rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
 			}else{
 				Debug.Log("Not Json");
 			}
@@ -89,12 +86,12 @@ public class client : MonoBehaviour {
 		}
 	}
 
-	private bool initialize_thread(){
+	private void initialize_thread(){
 		read_thread = new Thread(new ThreadStart(read_stream));
-		if(read_thread == null){
-			return false;
-		}else{
-			return true;
+		if (read_thread == null) {
+			Debug.Log ("Error");
+		} else {
+			read_thread.Start();
 		}
 	}
 
@@ -115,10 +112,10 @@ public class client : MonoBehaviour {
 		}
 	}
 	
-	private string make_json(string mode){
-		json = "{" +	"\"type\":\"" + mode + 				"\"," +
+	private string make_json(string status_mode){
+		json = "{" +	"\"type\":\"" + status_mode + 		"\"," +
 						"\"name\":\"" + gameObject.name + 	"\"";
-		switch (mode){
+		switch (status_mode){
 			case "setup":
 				status = "send";
 				break;
@@ -134,6 +131,7 @@ public class client : MonoBehaviour {
 		}
 		json += "}";
 
+		//Debug.Log(json);
 		return json;
 	}
 
@@ -144,8 +142,8 @@ public class client : MonoBehaviour {
 		tmp_p = transform.position;
 		tmp_r = transform.eulerAngles;
 
-		initialize_cilent ();
-		initialize_thread ();
+		initialize_cilent();
+		initialize_thread();
 	}
 	
 	void Start(){
@@ -155,12 +153,14 @@ public class client : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (transform.position != tmp_p || transform.eulerAngles != tmp_r) {
-			send_massage(make_json(status));
-
 			tmp_p = transform.position;
 			tmp_r = transform.eulerAngles;
-			pos = tmp_p;
-			rote = tmp_r;
+			if(read == true){
+				send_massage(make_json(status));
+				pos = tmp_p;
+				rote = tmp_r;
+			}
+			read = false;
 		} 
 
 		transform.position = pos;
