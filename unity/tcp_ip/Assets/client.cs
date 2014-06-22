@@ -17,7 +17,7 @@ public class client : MonoBehaviour {
 	private NetworkStream 	net   = null;
 
 	//ストリーム
-	public  string stream = "";
+	private  string stream = "";
 	private byte[] data = new byte[10000];
 	
 	//Jsonデータ
@@ -35,17 +35,18 @@ public class client : MonoBehaviour {
 	private Vector3 tmp_r;
 	private Vector3 read_tmp_p = Vector3.zero;
 	private Vector3 read_tmp_r = Vector3.zero;
-	
+
+	public bool send = false;
 	public bool read = false;
 	
 	private void read_stream(){//**マルチスレッド関数**
 		Debug.Log("Start read stream!");
 		while(true){
 			//マルチスレッドの速度？
-			Thread.Sleep(0);
+			Thread.Sleep(10);
 			//ストリームの受信
 			data = new byte[data.Length];
-			stream = "";
+			//stream = "";
 			net.Read(data, 0, data.Length);
 			stream = System.Text.Encoding.Default.GetString(data);
 			Debug.Log(stream);
@@ -56,14 +57,14 @@ public class client : MonoBehaviour {
 
 				read_tmp_p = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
 				read_tmp_r = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
-				if(read_tmp_p != pos && read_tmp_r != rote){
-					read = true;
+				if(read_tmp_p == pos && read_tmp_r == rote){
+					read = false;
+				}else{
 					pos = read_tmp_p;
 					rote = read_tmp_r;
-				}else{
-					read = false;
+					read = true;
 				}
-				
+
 			}else{
 				Debug.Log("Not Json");
 			}
@@ -115,7 +116,7 @@ public class client : MonoBehaviour {
 	}
 
 	private void send_massage(string text){
-		if (net != null) {
+		if (net != null && read == false) {
 			byte[] send_byte = Encoding.UTF8.GetBytes (text);
 			net.Write (send_byte, 0, send_byte.Length);
 		} else {
@@ -166,10 +167,14 @@ public class client : MonoBehaviour {
 		if (transform.position != tmp_p || transform.eulerAngles != tmp_r) {
 			tmp_p = transform.position;
 			tmp_r = transform.eulerAngles;
-			send_massage(make_json(status));
+			send_massage (make_json (status));
 			pos = tmp_p;
 			rote = tmp_r;
-		} 
+
+			read = true;
+		} else {
+			read = false;
+		}
 
 		transform.position = pos;
 		transform.eulerAngles = rote;
