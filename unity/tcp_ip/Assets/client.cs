@@ -49,6 +49,7 @@ public class client : MonoBehaviour {
 			stream = System.Text.Encoding.Default.GetString(data);
 			Debug.Log(stream);
 			var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
+			read = false;
 			if(jsonData != null){
 				read = true;
 				pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
@@ -155,12 +156,12 @@ public class client : MonoBehaviour {
 		if (transform.position != tmp_p || transform.eulerAngles != tmp_r) {
 			tmp_p = transform.position;
 			tmp_r = transform.eulerAngles;
-			if(read == true){
+			//if(read == true){
 				send_massage(make_json(status));
+			//}else{
 				pos = tmp_p;
 				rote = tmp_r;
-			}
-			read = false;
+			//}
 		} 
 
 		transform.position = pos;

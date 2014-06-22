@@ -37,8 +37,11 @@ var t = null;
  }
  
  
+ var t = "11111 ";
+ console.log(t);
  
- 
+t -= " ";
+ console.log(t);
  
  
  

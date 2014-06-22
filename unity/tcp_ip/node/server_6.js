@@ -10,7 +10,10 @@ var contact = null;
 console.log('Start Node Server !!');
 var server = net.createServer(function (socket) {
     socket.setEncoding("utf8");
-        
+    
+    
+    //console.log(socket.remotePort);
+    
     socket.on('data',function(message){//クライアントからの読み込み
         try{
             contact = JSON.parse(message);
