@@ -15,7 +15,7 @@ server.on("listening", function () {
       address.address + ":" + address.port);
 });
 
-socket.on('data',function(message,socket){
+server.on('data',function(message,socket){
         try{
             contact = JSON.parse(message);
             if (contact.type == "setup") {
@@ -43,12 +43,8 @@ socket.on('data',function(message,socket){
         }
     });
     
-    socket.on('end', function() {
-        for(var i in clients){
-            for(var j=1;j<clients[i].length;j++){
-                clients[i][j].close();
-            }
-        }
+    server.on('end', function() {
+        server.close();
         console.log("Exit server!!");
         process.exit();
     });
@@ -56,7 +52,7 @@ socket.on('data',function(message,socket){
     // Send a message to all clients
     function broadcast(id, clinets_data, message, sender) {
       for(var i = 1; i < clinets_data.length;i++) {
-        if (clinets_data[i][1].address().port != senderr.address().port){
+        if (clinets_data[i][1].address().port != sender.address().port){
             server.write(message,0,message.length,clients_data[i][1].address().port);
         }
       }
