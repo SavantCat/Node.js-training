@@ -6,55 +6,41 @@ var number = 0;
 var contact = null;
 
 console.log('Start Node Server !!');
-var net = require('net');
-var server = net.createServer(function (socket) {
-    socket.setEncoding("utf8");
-        
-    socket.on('data',function(message){//クライアントからの読み込み
+var dgram = require("dgram");
+var server = dgram.createSocket("udp4");
+
+server.on("listening", function () {
+  var address = server.address();
+  console.log("server listening " +
+      address.address + ":" + address.port);
+});
+
+socket.on('data',function(message,socket){
         try{
             contact = JSON.parse(message);
             if (contact.type == "setup") {
-                //console.log("A");
                 if (clients == null) {
-                    //console.log("B");
                     clients = [[contact.name,socket]];
-                    //socket.write(socket.remotePort);
-                    //console.log("Connected "+"No. " + contact.name +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
                 }else{
-                    //console.log("C");
                     var f = 0;
                     for(var i in clients){
-                        console.log(i+":"+contact.name+" "+clients[i][0]+" "+socket.remotePort+" "+clients[i][1].remotePort);
-                        if (contact.name == clients[i][0] && socket.remotePort != clients[i][1].remotePort) {
+                        if (contact.name == clients[i][0] .address().port&& socketr.address().port != clients[i][1].port) {
                             clients[i].push(socket);
-                            console.log("D");
-                            //socket.write(socket.remotePort+"");
-                            //console.log("Connected "+"No. " + contact.name +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
                             f = 1;
                             break;
                         }
                     }
-                    
                     if (f === 0) {
-                        clients.push([contact.name,socket]);
-                        //socket.write(socket.remotePort+"");
-                        //console.log("Connected "+"No. " + contact.name +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
+                   clients.push([contact.name,socket]);
                     }
                 }
-               // console.log("Connected "+"No. " + contact.name +" : (" +socket.remoteAddress +' : '+ socket.remotePort+")");
                 show_port();
             }
-            if(contact.type == "send") {
-                //console.log("SEND: "+contact.name)
-                broadcast(contact.name,clients[contact.name],message,socket);
+            if(contact.type == "send") {               broadcast(contact.name,clients[contact.name],message,socket);
             }
         }catch(e){
             console.log("message -> "+e);
         }
-    });
-    
-    socket.on('drain', function() {
-        console.log("complete");
     });
     
     socket.on('end', function() {
@@ -69,28 +55,20 @@ var server = net.createServer(function (socket) {
     
     // Send a message to all clients
     function broadcast(id, clinets_data, message, sender) {
-    //console.log("broadcast");
       for(var i = 1; i < clinets_data.length;i++) {
-        
-        // Don't want to send it to sender
-       //console.log("A:"+i);
-        if (clinets_data[i] != sender){
-            //console.log("B:"+clinets_data[i].remotePort);
-            clinets_data[i].write(message);
-            console.log("ObjctID: " + id +", Port: "+ sender.remotePort + " -> " + clients[i][1].remotePort+" : "+message);
+        if (clinets_data[i][1].address().port != senderr.address().port){
+            server.write(message,0,message.length,clients_data[i][1].address().port);
         }
       }
-      // Log it to the server output too
-      //console.log(clients[i][1].remoteAddress+" : "+message)
     }
     
     function show_port() {
         console.log("----------------------");
         for(var i in clients){
             console.log("*********");
-            var show = "["+clients[i][0]+",";
+            var show = "["+clients[i][0].address().port",";
             for(var j=1;j<clients[i].length;j++){
-                show += clients[i][j].remotePort+",";
+                show += clients[i][j].address().port",";
             }
             show = show.slice(0, -1);
             show += "]";
@@ -100,6 +78,6 @@ var server = net.createServer(function (socket) {
         console.log("----------------------");
     }
     
-}).listen(port,host);
+server.bind(port,host);
 
 
