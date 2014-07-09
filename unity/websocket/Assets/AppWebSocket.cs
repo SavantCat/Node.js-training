@@ -43,7 +43,7 @@ public class AppWebSocket : MonoBehaviour {
 			string message = e.Data;
 
 			readJson(message);
-			//Debug.Log(string.Format("OnMessage {0}", message));
+			Debug.Log(string.Format("OnMessage:", message));
 			m_tmpQueue.Enqueue(message);
 		};
 

@@ -51,7 +51,7 @@
      <Compile Include="Assets\make_box.cs" />
      <Compile Include="Assets\move.cs" />
  <Reference Include="websocket-sharp">
- <HintPath>C:/github/Node.js-training/unity/websocket/Assets/Plugin/websocket-sharp.dll</HintPath>
+ <HintPath>G:/GitHub/Node.js-training/unity/websocket/Assets/Plugin/websocket-sharp.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang= "jp">
+    <head>
+        <meta charset="UTF-8">
+        <title>BBS</title>
+    </head>
+    <body>
+        <form method= "post">
+            <input type= "text" name="name">
+            <input type= "submit" value= "Post!">
+        </form>
+        <ul>
+            <% for (var i=0; i < posts.lenght; i++){ %>
+            <li><%= posts[i] %></li>    
+            <% } %>
+        </ul>
+    </body>
+</html>

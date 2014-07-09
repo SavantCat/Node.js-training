@@ -1,5 +1,5 @@
 var port = 3000;
-var host = '192.168.24.239';
+var host = '192.168.1.5';
 
 var clients = null;
 var number = 0;
@@ -62,9 +62,9 @@ server.on('data',function(message,socket){
         console.log("----------------------");
         for(var i in clients){
             console.log("*********");
-            var show = "["+clients[i][0].address().port",";
+            var show = "["+clients[i][0].address().port+",";
             for(var j=1;j<clients[i].length;j++){
-                show += clients[i][j].address().port",";
+                show += clients[i][j].address().port+",";
             }
             show = show.slice(0, -1);
             show += "]";
