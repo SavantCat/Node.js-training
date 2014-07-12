@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Threading;
 using System.Net.Sockets;
@@ -18,13 +19,13 @@ public class client : MonoBehaviour {
 	private IPEndPoint 	remoteEP   = null;
 	
 	//ストリーム
-	private  string stream = "";
+	public  string stream = "";
 	private byte[] res = new byte[10000];
 	
 	//Jsonデータ
 	private string json;
 	private string status;
-	private string obj_name;
+	private string obj_id;
 	public Vector3 pos;
 	public Vector3 rote;
 	
@@ -36,42 +37,38 @@ public class client : MonoBehaviour {
 	private Vector3 tmp_r;
 	private Vector3 read_tmp_p = Vector3.zero;
 	private Vector3 read_tmp_r = Vector3.zero;
-	
-	public bool send = false;
-	public bool read = false;
-	
+
+	//読み込み設定
+	public Vector3 offset = Vector3.zero;
+	public bool send_mode = false;
+	public bool read_mode = false;
+
+
 	private void read_stream(){//**マルチスレッド関数**
 		Debug.Log("Start read stream!");
 		while(true){
 			//マルチスレッドの速度？
 			Thread.Sleep(10);
 			//ストリームの受信
-			stream = read_message();
-			Debug.Log(stream);
-			var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
-			if(jsonData != null){
-				//pos  = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
-				//rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
-				
-				read_tmp_p = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
-				read_tmp_r = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
-				if(read_tmp_p == pos && read_tmp_r == rote){
-					read = false;
+			if(read_mode){
+				stream = read_message();
+				//Debug.Log(stream);
+				var jsonData = MiniJSON.Json.Deserialize(stream) as Dictionary<string,object>;
+				if(jsonData != null){
+					//if(jsonData["type"] == "send"){
+						pos = new Vector3(float.Parse(jsonData["x_p"].ToString()),float.Parse(jsonData["y_p"].ToString()),float.Parse(jsonData["z_p"].ToString()));
+						rote = new Vector3(float.Parse(jsonData["x_r"].ToString()),float.Parse(jsonData["y_r"].ToString()),float.Parse(jsonData["z_r"].ToString()));
+					//}
 				}else{
-					pos = read_tmp_p;
-					rote = read_tmp_r;
-					read = true;
+					Debug.Log("Not Json");
 				}
-				
-			}else{
-				Debug.Log("Not Json");
 			}
 		}
 	}
 	
 	private bool initialize_cilent(){
 		//UDP/IPの初期化
-		udpip = new UdpClient(myport);
+		udpip = new UdpClient(IP,port);
 		if (udpip == null) {
 			Debug.Log("Make client fall.");
 			return false;
@@ -115,12 +112,8 @@ public class client : MonoBehaviour {
 	}
 	
 	private void send_massage(string text){
-		if (read == false) {
-			byte[] send_byte = Encoding.UTF8.GetBytes (text);
-			udpip.Send(send_byte,send_byte.Length);
-		} else {
-			Debug.Log("Get stream fall.");
-		}
+		byte[] send_byte = Encoding.UTF8.GetBytes (text);
+		udpip.Send(send_byte,send_byte.Length);
 	}
 
 	private string read_message(){
@@ -130,7 +123,7 @@ public class client : MonoBehaviour {
 	
 	private string make_json(string status_mode){
 		json = "{" +	"\"type\":\"" + status_mode + 		"\"," +
-			"\"name\":\"" + gameObject.name + 	"\"";
+						"\"ID\" :\"" + gameObject.name + 	"\"";
 		switch (status_mode){
 		case "setup":
 			status = "send";
@@ -138,7 +131,7 @@ public class client : MonoBehaviour {
 		case "send":
 			json += ",";
 			json +=	"\"x_p\":" + transform.position.x + 	"," +
-				"\"y_p\":" + transform.position.y + 	"," +
+					"\"y_p\":" + transform.position.y + 	"," +
 					"\"z_p\":" + transform.position.z + 	"," +
 					"\"x_r\":" + transform.eulerAngles.x + 	"," +
 					"\"y_r\":" + transform.eulerAngles.y + 	"," +
@@ -153,36 +146,38 @@ public class client : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake () {
-		myport = 1000 + int.Parse(gameObject.name);
-		status = "setup";
-		obj_name = gameObject.name;
-		tmp_p = transform.position;
-		tmp_r = transform.eulerAngles;
-		
-		initialize_cilent();
-		initialize_thread();
+
 	}
 	
 	void Start(){
-		//send_massage(gameObject.name);
+		//Debug.Log (gameObject.name);
+		//myport = 1000 + Convert.ToInt32(gameObject.name);
+		status = "setup";
+		obj_id = gameObject.name;
+		tmp_p = transform.position;
+		tmp_r = transform.eulerAngles;
+		pos = tmp_p;
+		rote = tmp_r;
+		initialize_cilent();
+		initialize_thread();
+
+		send_massage(make_json (status));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (transform.position != tmp_p || transform.eulerAngles != tmp_r) {
+		if ((transform.position != tmp_p || transform.eulerAngles != tmp_r) && send_mode) {
 			tmp_p = transform.position;
 			tmp_r = transform.eulerAngles;
 			send_massage (make_json (status));
 			pos = tmp_p;
 			rote = tmp_r;
-			
-			read = true;
-		} else {
-			read = false;
+		} 
+
+		if(read_mode){
+			transform.position 		= pos + offset;
+			transform.eulerAngles 	= rote;
 		}
-		
-		transform.position = pos;
-		transform.eulerAngles = rote;
 	}
 	
 	void OnApplicationQuit() {

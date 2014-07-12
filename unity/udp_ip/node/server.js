@@ -20,7 +20,7 @@ server.on('data',function(message,socket){
             contact = JSON.parse(message);
             if (contact.type == "setup") {
                 if (clients == null) {
-                    clients = [[contact.name,socket]];
+                    clients = [[contact.ID,socket]];
                 }else{
                     var f = 0;
                     for(var i in clients){
@@ -31,12 +31,13 @@ server.on('data',function(message,socket){
                         }
                     }
                     if (f === 0) {
-                   clients.push([contact.name,socket]);
+                      clients.push([contact.name,socket]);
                     }
                 }
                 show_port();
             }
-            if(contact.type == "send") {               broadcast(contact.name,clients[contact.name],message,socket);
+            if(contact.type == "send") {
+              broadcast(contact.name,clients[contact.name],message,socket);
             }
         }catch(e){
             console.log("message -> "+e);

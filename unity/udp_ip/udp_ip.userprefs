@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\handle\Assets\input.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\client.cs">
     <Files>
-      <File FileName="..\..\..\handle\Assets\input.cs" Line="17" Column="53" />
+      <File FileName="Assets\client.cs" Line="178" Column="39" />
+      <File FileName="Assets\make_box.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
