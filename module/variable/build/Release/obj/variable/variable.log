@@ -1,0 +1,18 @@
+﻿2014/10/27 22:59:16 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "G:\GitHub\Node.js-training\module\variable\build\variable.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\K.Hotta\.node-gyp\0.10.28\src" /I"C:\Users\K.Hotta\.node-gyp\0.10.28\deps\uv\include" /I"C:\Users\K.Hotta\.node-gyp\0.10.28\deps\v8\include" /Zi /nologo /W3 /WX- /Ox /Ob2 /Oi /Ot /Oy /GL /D WIN32 /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D BUILDING_V8_SHARED=1 /D BUILDING_UV_SHARED=1 /D BUILDING_NODE_EXTENSION /D _WINDLL /GF /Gm- /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"Release\obj\variable\\" /Fd"Release\obj\variable\vc120.pdb" /Gd /TP /wd4251 /errorReport:prompt /MP ..\variable.cc
+         variable.cc
+     1>C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xlocale(337): warning C4530: C++ 例外処理を使っていますが、アンワインド セマンティクスは有効にはなりません。/EHsc を指定してください。
+     1>C:\Users\K.Hotta\.node-gyp\0.10.28\deps\v8\include\v8.h(184): warning C4506: インライン関数 'v8::Persistent<v8::Object> v8::Persistent<v8::Object>::New(v8::Handle<v8::Object>)' は定義されていません。
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"G:\GitHub\Node.js-training\module\variable\build\Release\variable.node" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib DelayImp.lib "C:\Users\K.Hotta\.node-gyp\0.10.28\Release\node.lib" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\GitHub\Node.js-training\module\variable\build\Release\variable.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X64 /DLL Release\obj\variable\variable.obj
+            ライブラリ G:\GitHub\Node.js-training\module\variable\build\Release\variable.lib とオブジェクト G:\GitHub\Node.js-training\module\variable\build\Release\variable.exp を作成中
+         コード生成しています。
+         コード生成が終了しました。
+         variable.vcxproj -> G:\GitHub\Node.js-training\module\variable\build\Release\\variable.node
+     1>プロジェクト "G:\GitHub\Node.js-training\module\variable\build\variable.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:01.15

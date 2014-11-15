@@ -1,0 +1,10 @@
+﻿2014/10/26 20:15:14 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "G:\GitHub\Node.js-training\module\helloworld\build\hello.vcxproj" (Build ターゲット)。
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"G:\GitHub\Node.js-training\module\helloworld\build\Debug\hello.node" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib DelayImp.lib "C:\Users\K.Hotta\.node-gyp\0.10.28\Debug\node.lib" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\GitHub\Node.js-training\module\helloworld\build\Debug\hello.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X64 /DLL Debug\obj\hello\hello_world.obj
+     1>LINK : fatal error LNK1104: ファイル 'C:\Users\K.Hotta\.node-gyp\0.10.28\Debug\node.lib' を開くことができません。
+     1>プロジェクト "G:\GitHub\Node.js-training\module\helloworld\build\hello.vcxproj" (Build ターゲット) のビルドが終了しました -- 失敗。
+
+ビルドに失敗しました。
+
+経過時間 00:00:00.07

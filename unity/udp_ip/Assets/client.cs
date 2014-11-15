@@ -42,8 +42,7 @@ public class client : MonoBehaviour {
 	public Vector3 offset = Vector3.zero;
 	public bool send_mode = false;
 	public bool read_mode = false;
-
-
+	
 	private void read_stream(){//**マルチスレッド関数**
 		Debug.Log("Start read stream!");
 		while(true){

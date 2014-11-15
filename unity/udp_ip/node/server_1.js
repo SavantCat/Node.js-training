@@ -1,5 +1,5 @@
 var port = 3000;
-var host = '192.168.1.5';
+var host = '25.115.102.159';
 
 var clients = null;
 var number = 0;
@@ -27,7 +27,7 @@ server.on("message", function (msg, rinfo) {
               for(var i in clients){
                 if (contact.ID == clients[i][0]){
                   f = 1;
-                  for(var j = 1 in clients[i]){
+                  for(var j=1;j<clients[i].length;j++){
                     if(rinfo.port == clients[i][j][1]) {
                       f = 2;
                       break;
@@ -43,12 +43,12 @@ server.on("message", function (msg, rinfo) {
                 clients[i].push([rinfo.address,rinfo.port]);
               }
           }
-          //console.log(clients);
+          console.log(clients);
           //show_port();
       }
-      if(contact.type == "send") {
+     // if(contact.type == "send") {
         broadcast(contact.ID,msg,rinfo.port);
-      }
+      //}
   }catch(e){
       console.log("message -> "+e);
   }
@@ -68,7 +68,7 @@ function broadcast(id, message, sender_port) {
         //console.log(sender_port + " : " + clients[i][j][1]);
         if(sender_port != clients[i][j][1]) {
           server.send(message,0,message.length,clients[i][j][1],clients[i][j][0]);
-          //console.log("server send: " + message + " to " + clients[i][j][0] + ":" + clients[i][j][1]);
+          console.log("server send: " + message + " to " + clients[i][j][0] + ":" + clients[i][j][1]);
         }
       }
     }

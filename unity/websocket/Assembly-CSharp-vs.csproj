@@ -50,6 +50,7 @@
      <Compile Include="Assets\Plugin\MiniJSON.cs" />
      <Compile Include="Assets\make_box.cs" />
      <Compile Include="Assets\move.cs" />
+     <Compile Include="Assets\send_audio.cs" />
  <Reference Include="websocket-sharp">
  <HintPath>G:/GitHub/Node.js-training/unity/websocket/Assets/Plugin/websocket-sharp.dll</HintPath>
  </Reference>

@@ -1,0 +1,14 @@
+﻿2014/10/27 19:54:59 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "G:\GitHub\Node.js-training\module\math\build\math.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\K.Hotta\.node-gyp\0.10.28\src" /I"C:\Users\K.Hotta\.node-gyp\0.10.28\deps\uv\include" /I"C:\Users\K.Hotta\.node-gyp\0.10.28\deps\v8\include" /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D BUILDING_V8_SHARED=1 /D BUILDING_UV_SHARED=1 /D BUILDING_NODE_EXTENSION /D DEBUG /D _DEBUG /D _WINDLL /GF /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\obj\math\\" /Fd"Debug\obj\math\vc120.pdb" /Gd /TP /wd4251 /errorReport:prompt ..\math.cc
+         math.cc
+     1>C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\streambuf(301): warning C4506: インライン関数 'v8::Persistent<v8::Object> v8::Persistent<v8::Object>::New(v8::Handle<v8::Object>)' は定義されていません。
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"G:\GitHub\Node.js-training\module\math\build\Debug\math.node" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib DelayImp.lib "C:\Users\K.Hotta\.node-gyp\0.10.28\Debug\node.lib" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\GitHub\Node.js-training\module\math\build\Debug\math.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X64 /DLL Debug\obj\math\math.obj
+     1>LINK : fatal error LNK1104: ファイル 'C:\Users\K.Hotta\.node-gyp\0.10.28\Debug\node.lib' を開くことができません。
+     1>プロジェクト "G:\GitHub\Node.js-training\module\math\build\math.vcxproj" (Build ターゲット) のビルドが終了しました -- 失敗。
+
+ビルドに失敗しました。
+
+経過時間 00:00:00.66
